@@ -12,6 +12,10 @@ mongoose.connect('mongodb://e-walker-epam-ajax-test-5251324/epam-ajax',{useMongo
 var index = require('./routes/index');
 var users = require('./routes/users');
 var table = require('./routes/table');
+var tests = require('./routes/tests');
+var functions = require('./routes/functions');
+var spreadsheets = require('./routes/spreadsheets');
+var sketch = require('./routes/sketches');
 
 var app = express();
 
@@ -40,6 +44,12 @@ app.use(function(req, res, next) {
 app.use('/', index);
 app.use('/users', users);
 app.use('/tables',table);
+app.use('/tests',tests);
+app.use('/functions',functions);
+app.use('/spreadsheets',spreadsheets);
+app.use('/sketches',sketch);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
