@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
 let RecordFieldSchema = new Schema({
     fieldName: String,
@@ -129,6 +129,7 @@ RecordSchema.statics.getPage = function(tableName, pageNr, pageSize, filter, ord
 
                     let error = new Error();
                     error.status = 404;
+                    error.message = 'record not found';
                     reject(error);
                 }
 
@@ -141,5 +142,5 @@ RecordSchema.statics.getPage = function(tableName, pageNr, pageSize, filter, ord
 
 
 }
-var RecordsModel = mongoose.model('Records', RecordSchema);
+let RecordsModel = mongoose.model('Records', RecordSchema);
 module.exports = RecordsModel;

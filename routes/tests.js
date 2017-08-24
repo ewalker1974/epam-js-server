@@ -12,6 +12,7 @@ router.get('/:user/:test', function(req, res, next) {
         if (err) {
             let error = new Error();
             error.status = 404;
+            error.message = 'record not found';
             next(error);
         }
         else {
@@ -21,6 +22,7 @@ router.get('/:user/:test', function(req, res, next) {
             else {
                 let error = new Error();
                 error.status = 404;
+                error.message = 'record not found';
                 next(error);
             }
 
@@ -49,6 +51,7 @@ router.post('/', function(req, res, next) {
             if (err) {
                 let error = new Error();
                 error.status = 500;
+                error.message = 'error during the save';
                 next(error);
             }
             else {
@@ -71,6 +74,7 @@ router.patch('/test/:testId', function(req, res, next) {
         if (err) {
             let error = new Error();
             error.status = 500;
+            error.message = 'error during the save';
             next(error);
 
         }
@@ -79,6 +83,7 @@ router.patch('/test/:testId', function(req, res, next) {
             if(!record) {
                let error = new Error();
             error.status = 404;
+            error.message = 'record not found';
             next(error);
             return;
             }
@@ -99,6 +104,7 @@ router.patch('/test/:testId', function(req, res, next) {
                     if (err) {
                         let error = new Error();
                         error.status = 500;
+                        error.message = 'error during the save';
                         next(error);
                     }
                     else {
@@ -109,6 +115,7 @@ router.patch('/test/:testId', function(req, res, next) {
             else {
                 let error = new Error();
                 error.status = 400;
+                error.message = 'bad input parameters';
                 next(error);
             }
 
@@ -126,10 +133,11 @@ router.delete('/test', function(req, res, next) {
             if (err) {
                 let error = new Error();
                 error.status = 500;
+                error.message = 'error during the delete';
                 next(error);
             }
             else {
-                res.json({ status: 'ok', record_id: req.query.record_id });
+                res.json({ status: 'ok', record_id: req.query.test_id });
             }
         });
     }

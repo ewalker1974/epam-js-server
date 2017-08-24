@@ -22,6 +22,7 @@ var app = express();
 
 
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -43,11 +44,13 @@ app.use(function(req, res, next) {
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/tables',table);
-app.use('/tests',tests);
-app.use('/functions',functions);
-app.use('/spreadsheets',spreadsheets);
-app.use('/sketches',sketch);
+
+
+app.use('/api/tables',table);
+app.use('/api/tests',tests);
+app.use('/api/functions',functions);
+app.use('/api/spreadsheets',spreadsheets);
+app.use('/api/sketches',sketch);
 
 
 
@@ -64,8 +67,20 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  let path = req.url;
+  
+  
+  if (path.startsWith('/api')) {
+    res.status(err.status);
+    res.json({error:err.message});
+    return;
+  }
+
   // render the error page
   res.status(err.status || 500);
+  
+  
+  
   res.render('error');
 });
 

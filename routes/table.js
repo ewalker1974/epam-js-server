@@ -71,6 +71,7 @@ router.post('/', function(req, res, next) {
             if (err) {
                 let error = new Error();
                 error.status = 500;
+                error.message = 'error during save operation';
                 next(error);
             }
             else {
@@ -83,6 +84,7 @@ router.post('/', function(req, res, next) {
     else {
         let error = new Error();
         error.status = 400;
+        error.message = 'input parameters are invalid';
         next(error);
     }
 
@@ -97,6 +99,7 @@ router.patch('/record/:recordId', function(req, res, next) {
         if (err) {
             let error = new Error();
             error.status = 500;
+            error.message = 'error during record update occured';
             next(error);
 
         } else {
@@ -107,6 +110,7 @@ router.patch('/record/:recordId', function(req, res, next) {
                 } else {
                     let error = new Error();
                     error.status = 400;
+                    error.message = 'input parameters are invalid';
                     next(error);
                     return;
                 }
@@ -117,6 +121,7 @@ router.patch('/record/:recordId', function(req, res, next) {
                if(err) {
                  let error = new Error();
                     error.status = 500;
+                    error.message = 'error during the update';
                     next(error);  
                } else {
                    res.json({status:'ok',record_id:record.id});
@@ -135,6 +140,7 @@ router.delete('/record', function(req, res, next) {
            if(err) {
                  let error = new Error();
                     error.status = 500;
+                    error.message = 'error during the delete';
                     next(error);  
                } else {
                    res.json({status:'ok',record_id:req.query.record_id});
