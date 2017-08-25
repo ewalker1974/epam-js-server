@@ -17,6 +17,8 @@ var functions = require('./routes/functions');
 var spreadsheets = require('./routes/spreadsheets');
 var sketch = require('./routes/sketches');
 
+mongoose.Promise = global.Promise;
+
 var app = express();
 
 
@@ -38,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, PATCH, DELETE");
     return next();
   });
 
@@ -51,6 +54,8 @@ app.use('/api/tests',tests);
 app.use('/api/functions',functions);
 app.use('/api/spreadsheets',spreadsheets);
 app.use('/api/sketches',sketch);
+
+
 
 
 

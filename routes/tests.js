@@ -35,13 +35,13 @@ router.get('/:user/:test', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 
-    if (typeof req.query.user !== 'undefined' && typeof req.query.test !== 'undefined') {
+    if (typeof req.body.user !== 'undefined' && typeof req.body.test !== 'undefined') {
         let rec = new test;
-        rec.username = req.query.user;
-        rec.testId = req.query.test;
+        rec.username = req.body.user;
+        rec.testId = req.body.test;
 
-        if (typeof req.query.question_nr !== 'undefined' && typeof req.query.is_correct !== 'undefined') {
-            let testItem = { questionNr: req.query.question_nr, isCorrect: req.query.is_correct };
+        if (typeof req.body.question_nr !== 'undefined' && typeof req.body.is_correct !== 'undefined') {
+            let testItem = { questionNr: req.body.question_nr, isCorrect: req.body.is_correct };
 
             rec.questions = [];
             rec.questions.push(testItem);
@@ -87,17 +87,17 @@ router.patch('/test/:testId', function(req, res, next) {
             next(error);
             return;
             }
-            if (typeof req.query.question_nr !== 'undefined' && typeof req.query.is_correct !== 'undefined') {
+            if (typeof req.body.question_nr !== 'undefined' && typeof req.body.is_correct !== 'undefined') {
 
                 
                 
-                let testData = record.getQuestion(req.query.question_nr);
+                let testData = record.getQuestion(req.body.question_nr);
                 if (testData) {
-                    testData.isCorrect = req.query.is_correct;
+                    testData.isCorrect = req.body.is_correct;
                 }
                 else {
 
-                    record.questions.push({ questionNr: req.query.question_nr, isCorrect: req.query.is_correct });
+                    record.questions.push({ questionNr: req.body.question_nr, isCorrect: req.body.is_correct });
                 }
                 
                 record.save(function(err, savedRec) {
@@ -128,8 +128,8 @@ router.patch('/test/:testId', function(req, res, next) {
 });
 
 router.delete('/test', function(req, res, next) {
-    if (req.query.test_id !== 'undefined') {
-        test.remove({ _id: req.query.test_id }, function(err, record) {
+    if (req.body.test_id !== 'undefined') {
+        test.remove({ _id: req.body.test_id }, function(err, record) {
             if (err) {
                 let error = new Error();
                 error.status = 500;
@@ -137,7 +137,7 @@ router.delete('/test', function(req, res, next) {
                 next(error);
             }
             else {
-                res.json({ status: 'ok', record_id: req.query.test_id });
+                res.json({ status: 'ok', record_id: req.body.test_id });
             }
         });
     }

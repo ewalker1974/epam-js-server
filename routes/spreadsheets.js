@@ -69,11 +69,11 @@ router.post('/', function(req, res, next) {
 
 
     let sheet = new spreadsheetData();
-    sheet.spreadsheetName = sys.getProp(req.query, 'name');
-    sheet.cols = sys.getProp(req.query, 'cols');
-    sheet.rows = sys.getProp(req.query, 'rows');
+    sheet.spreadsheetName = sys.getProp(req.body, 'name');
+    sheet.cols = sys.getProp(req.body, 'cols');
+    sheet.rows = sys.getProp(req.body, 'rows');
 
-    let cells = sys.getProp(req.query, 'cells');
+    let cells = sys.getProp(req.body, 'cells');
 
     if (cells) {
         try {
@@ -132,11 +132,11 @@ router.put('/spreadsheet/:sheetId', function(req, res, next) {
                 return;
             }
 
-            record.spreadsheetName = sys.getProp(req.query, 'name');
-            record.cols = sys.getProp(req.query, 'cols');
-            record.rows = sys.getProp(req.query, 'rows');
+            record.spreadsheetName = sys.getProp(req.body, 'name');
+            record.cols = sys.getProp(req.body, 'cols');
+            record.rows = sys.getProp(req.body, 'rows');
 
-            let cells = sys.getProp(req.query, 'cells');
+            let cells = sys.getProp(req.body, 'cells');
 
             if (cells) {
                 try {
@@ -178,8 +178,8 @@ router.put('/spreadsheet/:sheetId', function(req, res, next) {
 });
 
 router.delete('/spreadsheet', function(req, res, next) {
-    if (req.query.sheet_id !== 'undefined') {
-        spreadsheetData.remove({ _id: req.query.sheet_id }, function(err, record) {
+    if (req.body.sheet_id !== 'undefined') {
+        spreadsheetData.remove({ _id: req.body.sheet_id }, function(err, record) {
             if (err) {
                 let error = new Error();
                 error.status = 500;
@@ -187,7 +187,7 @@ router.delete('/spreadsheet', function(req, res, next) {
                 next(error);
             }
             else {
-                res.json({ status: 'ok', record_id: req.query.graph_id });
+                res.json({ status: 'ok', record_id: req.body.graph_id });
             }
         });
     }

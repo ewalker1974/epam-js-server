@@ -52,14 +52,14 @@ router.get('/:tablename', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 
-    if (typeof req.query.table_name !== 'undefined') {
-        let tableName = req.query.table_name;
+    if (typeof req.body.table_name !== 'undefined') {
+        let tableName = req.body.table_name;
         let fieldSet = [];
-        for (let i in req.query) {
+        for (let i in req.body) {
             if (i != 'table_name') {
                 let item = {
                     fieldName: i,
-                    value: req.query[i]
+                    value: req.body[i]
                 }
                 fieldSet.push(item);
             }
@@ -103,10 +103,10 @@ router.patch('/record/:recordId', function(req, res, next) {
             next(error);
 
         } else {
-            for (let i in req.query) {
+            for (let i in req.body) {
                 let field = record.getField(i);
                 if (field!=null) {
-                   field.value = req.query[i];    
+                   field.value = req.body[i];    
                 } else {
                     let error = new Error();
                     error.status = 400;
@@ -135,15 +135,15 @@ router.patch('/record/:recordId', function(req, res, next) {
 });
 
 router.delete('/record', function(req, res, next) {
-    if (req.query.record_id!=='undefined') {
-       table.remove({_id:req.query.record_id},function(err,record){
+    if (req.body.record_id!=='undefined') {
+       table.remove({_id:req.body.record_id},function(err,record){
            if(err) {
                  let error = new Error();
                     error.status = 500;
                     error.message = 'error during the delete';
                     next(error);  
                } else {
-                   res.json({status:'ok',record_id:req.query.record_id});
+                   res.json({status:'ok',record_id:req.body.record_id});
                } 
        }); 
     }

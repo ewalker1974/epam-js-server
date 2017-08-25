@@ -73,11 +73,11 @@ router.post('/', function(req, res, next) {
 
 
     let func = new funcData();
-    func.graphName = sys.getProp(req.query, 'name');
-    func.graphFunction = sys.getProp(req.query, 'graph_function');
-    func.minX = sys.getProp(req.query, 'min_x');
-    func.maxX = sys.getProp(req.query, 'max_x');
-    func.graphColor = sys.getProp(req.query, 'color');
+    func.graphName = sys.getProp(req.body, 'name');
+    func.graphFunction = sys.getProp(req.body, 'graph_function');
+    func.minX = sys.getProp(req.body, 'min_x');
+    func.maxX = sys.getProp(req.body, 'max_x');
+    func.graphColor = sys.getProp(req.body, 'color');
 
     func.save(function(err, savedRec) {
         if (err) {
@@ -116,11 +116,11 @@ router.put('/function/:graphId', function(req, res, next) {
                 return;
             }
             
-            record.graphName = sys.getProp(req.query, 'name');
-            record.graphFunction = sys.getProp(req.query, 'graph_function');
-            record.minX = sys.getProp(req.query, 'min_x');
-            record.maxX = sys.getProp(req.query, 'max_x');
-            record.graphColor = sys.getProp(req.query, 'color');
+            record.graphName = sys.getProp(req.body, 'name');
+            record.graphFunction = sys.getProp(req.body, 'graph_function');
+            record.minX = sys.getProp(req.body, 'min_x');
+            record.maxX = sys.getProp(req.body, 'max_x');
+            record.graphColor = sys.getProp(req.body, 'color');
             
             record.save(function(err, savedRec) {
                 if (err) {
@@ -141,8 +141,8 @@ router.put('/function/:graphId', function(req, res, next) {
 });
 
 router.delete('/function', function(req, res, next) {
-    if (req.query.function_id !== 'undefined') {
-        funcData.remove({ _id: req.query.function_id }, function(err, record) {
+    if (req.body.function_id !== 'undefined') {
+        funcData.remove({ _id: req.body.function_id }, function(err, record) {
             if (err) {
                 let error = new Error();
                 error.status = 500;
@@ -150,7 +150,7 @@ router.delete('/function', function(req, res, next) {
                 next(error);
             }
             else {
-                res.json({ status: 'ok', record_id: req.query.graph_id });
+                res.json({ status: 'ok', record_id: req.body.graph_id });
             }
         });
     }

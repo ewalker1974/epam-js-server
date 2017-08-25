@@ -72,9 +72,9 @@ router.post('/', function(req, res, next) {
 
 
     let graph = new graphEd();
-    graph.graphName = sys.getProp(req.query, 'name');
+    graph.graphName = sys.getProp(req.body, 'name');
 
-    let objects = sys.getProp(req.query, 'objects');
+    let objects = sys.getProp(req.body, 'objects');
     if (objects) {
         try {
             let objTest = JSON.parse(objects);
@@ -132,11 +132,11 @@ router.put('/graph/:graphId', function(req, res, next) {
                 return;
             }
 
-            record.graphName = sys.getProp(req.query, 'name');
+            record.graphName = sys.getProp(req.body, 'name');
 
 
 
-            let objects = sys.getProp(req.query, 'objects');
+            let objects = sys.getProp(req.body, 'objects');
             if (objects) {
                 try {
                     let objTest = JSON.parse(objects);
@@ -174,8 +174,8 @@ router.put('/graph/:graphId', function(req, res, next) {
 });
 
 router.delete('/graph', function(req, res, next) {
-    if (req.query.graph_id !== 'undefined') {
-        graphEd.remove({ _id: req.query.graph_id }, function(err, record) {
+    if (req.body.graph_id !== 'undefined') {
+        graphEd.remove({ _id: req.body.graph_id }, function(err, record) {
             if (err) {
                 let error = new Error();
                 error.status = 500;
@@ -183,7 +183,7 @@ router.delete('/graph', function(req, res, next) {
                 next(error);
             }
             else {
-                res.json({ status: 'ok', record_id: req.query.graph_id });
+                res.json({ status: 'ok', record_id: req.body.graph_id });
             }
         });
     }
