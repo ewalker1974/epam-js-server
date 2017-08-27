@@ -7,8 +7,8 @@ let test = require('../models/test');
 /* GET users listing. */
 router.get('/:user/:test', function(req, res, next) {
     test.find({ username: req.params.user, testId: req.params.test }, function(err, record) {
-       
-        
+
+
         if (err) {
             let error = new Error();
             error.status = 404;
@@ -48,10 +48,18 @@ router.post('/', function(req, res, next) {
         }
 
         rec.save(function(err, savedRec) {
-            if (err) {
+            if (err) { 
+               
                 let error = new Error();
-                error.status = 500;
-                error.message = 'error during the save';
+                if (err.message) {
+                    error.message = err.message;
+                    error.status = err.status;
+                } else {
+                  error.message = 'error during the save';
+                  error.status = 500;
+                }
+                
+                
                 next(error);
             }
             else {
@@ -60,6 +68,12 @@ router.post('/', function(req, res, next) {
         });
 
 
+    }
+    else {
+        let error = new Error();
+        error.status = 400;
+        error.message = 'bad input parameters';
+        next(error);
     }
 
 
@@ -80,17 +94,17 @@ router.patch('/test/:testId', function(req, res, next) {
         }
         else {
 
-            if(!record) {
-               let error = new Error();
-            error.status = 404;
-            error.message = 'record not found';
-            next(error);
-            return;
+            if (!record) {
+                let error = new Error();
+                error.status = 404;
+                error.message = 'record not found';
+                next(error);
+                return;
             }
             if (typeof req.body.question_nr !== 'undefined' && typeof req.body.is_correct !== 'undefined') {
 
-                
-                
+
+
                 let testData = record.getQuestion(req.body.question_nr);
                 if (testData) {
                     testData.isCorrect = req.body.is_correct;
@@ -99,7 +113,7 @@ router.patch('/test/:testId', function(req, res, next) {
 
                     record.questions.push({ questionNr: req.body.question_nr, isCorrect: req.body.is_correct });
                 }
-                
+
                 record.save(function(err, savedRec) {
                     if (err) {
                         let error = new Error();
@@ -147,3 +161,4 @@ router.delete('/test', function(req, res, next) {
 
 
 module.exports = router;
+
